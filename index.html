@@ -1,3 +1,224 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CrispFace</title>
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0d1117;color:#e6edf3;font:18px/1.5 system-ui,sans-serif;text-align:center;padding:16px}h1{font-size:48px;margin:0}p{color:#9aa7b4}</style></head>
-<body><div><h1>CrispFace</h1><p>Look crisp on camera. Coming soon.</p></div></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CrispFace — Look sharp on camera</title>
+<meta name="description" content="CrispFace is a mirror that shows you how to hide spots, dark circles and shine, live on your own face, with a $10 stick. No filters. No face scores.">
+<meta property="og:title" content="CrispFace — Look sharp on camera. Nobody can tell.">
+<meta property="og:description" content="60 seconds to camera-ready. No filters. No face scores.">
+<meta name="theme-color" content="#0e1013">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 108'%3E%3Crect width='108' height='108' rx='24' fill='%230e1013'/%3E%3Cpath d='M28 42V28H42M66 28H80V42M80 66V80H66M42 80H28V66' fill='none' stroke='%23d4ff3a' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M63.5 44.5A13.5 13.5 0 1 0 63.5 63.5' fill='none' stroke='%23f1eee8' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0e1013; --card: #1a1d22; --ink: #f1eee8; --muted: #8a9099; --volt: #d4ff3a; --ice: #7fd8ff; --line: #2a2e35;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 20px; letter-spacing: -.2px; }
+  .brand svg { width: 34px; height: 34px; }
+  .lang { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 7px 15px; font: inherit; font-size: 14px; cursor: pointer; }
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; padding: 40px 0 64px; }
+  h1 { font-size: clamp(38px, 7vw, 64px); line-height: 1.04; margin: 0 0 18px; letter-spacing: -1.5px; font-weight: 900; }
+  h1 span.v { color: var(--volt); }
+  .lead { color: #c9ccd1; font-size: 18px; margin: 0 0 30px; max-width: 32em; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--volt); color: var(--bg); text-decoration: none;
+    font-weight: 800; font-size: 17px; padding: 15px 26px; border-radius: 14px; }
+  .btn:hover { filter: brightness(1.05); }
+  .btn svg { width: 22px; height: 22px; fill: currentColor; }
+  .meta { color: var(--muted); font-size: 14px; margin-top: 12px; }
+  .meta a { color: inherit; }
+  /* The phone: a viewfinder over a split "before | after" bar, drawn, not a photo. */
+  .phone { justify-self: center; width: min(290px, 74vw); aspect-ratio: 9/18.5; border-radius: 40px; background: #050607;
+    border: 1px solid var(--line); padding: 12px; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 30px; overflow: hidden; background: #22262c; }
+  .screen .half { position: absolute; top: 0; bottom: 0; width: 50%; }
+  .screen .l { left: 0; background: linear-gradient(160deg, #3a3532, #2a2624); }
+  .screen .r { right: 0; background: linear-gradient(160deg, #4a443f, #35302c); }
+  .screen .mid { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--ink); opacity: .9; }
+  .screen .knob { position: absolute; left: 50%; top: 40%; width: 30px; height: 30px; margin-left: -15px; border-radius: 50%; background: var(--ink); color: var(--bg);
+    font-weight: 900; font-size: 13px; display: grid; place-items: center; }
+  .vf { position: absolute; inset: 14% 12% 30%; }
+  .vf i { position: absolute; width: 26px; height: 26px; border: 3px solid var(--volt); }
+  .vf i:nth-child(1) { left: 0; top: 0; border-right: 0; border-bottom: 0; }
+  .vf i:nth-child(2) { right: 0; top: 0; border-left: 0; border-bottom: 0; }
+  .vf i:nth-child(3) { left: 0; bottom: 0; border-right: 0; border-top: 0; }
+  .vf i:nth-child(4) { right: 0; bottom: 0; border-left: 0; border-top: 0; }
+  .tag { position: absolute; top: 16px; padding: 3px 9px; border-radius: 7px; font-size: 11px; font-weight: 800; background: rgba(0,0,0,.55); color: var(--ink); }
+  .tag.b { left: 14px; } .tag.a { right: 14px; background: var(--volt); color: var(--bg); }
+  .card-ui { position: absolute; left: 10px; right: 10px; bottom: 10px; background: rgba(14,16,19,.94); border: 1px solid var(--line); border-radius: 18px; padding: 14px; font-size: 13px; }
+  .card-ui b { display: block; font-size: 15px; margin-bottom: 6px; }
+  .card-ui div { color: #d7d9dc; } .card-ui div::before { content: "✓ "; color: var(--volt); font-weight: 900; }
+  section { padding: 56px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: clamp(26px, 4vw, 34px); margin: 0 0 26px; letter-spacing: -.5px; font-weight: 900; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid.four { grid-template-columns: repeat(4, 1fr); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+  .card h3 { margin: 0 0 6px; font-size: 17px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+  .num { font: 800 13px/1 ui-monospace, "JetBrains Mono", Menlo, monospace; color: var(--volt); margin-bottom: 12px; display: block; }
+  .stance { font-size: clamp(19px, 2.6vw, 24px); line-height: 1.5; max-width: 40em; margin: 0; }
+  .stance strong { color: var(--volt); }
+  .kit li { margin-bottom: 8px; } .kit { padding-left: 20px; margin: 0 0 18px; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 900; color: var(--bg); background: var(--volt); padding: 2px 7px; border-radius: 6px; margin-left: 6px; vertical-align: 2px; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 700; }
+  details p { color: #c9ccd1; margin: 10px 0 0; }
+  ol.steps { margin: 10px 0 0; padding-left: 22px; color: #c9ccd1; }
+  footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+  [data-zh] { display: none; }
+  html[lang="zh"] [data-en] { display: none; }
+  html[lang="zh"] [data-zh] { display: revert; }
+  @media (max-width: 800px) {
+    .hero { grid-template-columns: 1fr; padding-top: 12px; gap: 36px; }
+    .grid, .grid.four { grid-template-columns: 1fr; }
+    .wrap { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="24" fill="#1a1d22"/><path d="M28 42V28H42M66 28H80V42M80 66V80H66M42 80H28V66" fill="none" stroke="#d4ff3a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M63.5 44.5A13.5 13.5 0 1 0 63.5 63.5" fill="none" stroke="#f1eee8" stroke-width="8" stroke-linecap="round"/></svg>
+      CrispFace
+    </div>
+    <button class="lang" id="lang" type="button">中文</button>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1><span data-en>Look sharp on camera. <span class="v">Nobody can tell.</span></span><span data-zh>上镜更精神，<span class="v">没人看得出来。</span></span></h1>
+      <p class="lead">
+        <span data-en>CrispFace is a mirror that shows you how to hide spots, dark circles and shine — live, on your own face — with a $10 stick. No filters. No face scores.</span>
+        <span data-zh>CrispFace 是一面镜子，在你自己的脸上实时演示怎么遮掉痘印、黑眼圈和油光——只要一支 $10 的遮瑕棒。不是滤镜，不打分。</span>
+      </p>
+      <a class="btn" href="https://github.com/microblue/crispface-releases/releases/latest/download/crispface.apk">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
+        <span data-en>Download for Android</span><span data-zh>下载安卓版</span>
+      </a>
+      <div class="meta">
+        <span data-en>Free · v1.0 · Android 9+ · 18+</span>
+        <span data-zh>免费 · v1.0 · 安卓 9 及以上 · 18 岁以上</span>
+      </div>
+    </div>
+    <div class="phone" aria-hidden="true">
+      <div class="screen">
+        <div class="half l"></div><div class="half r"></div>
+        <div class="vf"><i></i><i></i><i></i><i></i></div>
+        <div class="mid"></div><div class="knob">‹›</div>
+        <span class="tag b"><span data-en>Now</span><span data-zh>现在</span></span>
+        <span class="tag a">Crisp</span>
+        <div class="card-ui">
+          <b data-en>That's you. Just crisper.</b><b data-zh>这就是你，只是更利落。</b>
+          <div data-en>Spots toned down</div><div data-zh>痘印淡了</div>
+          <div data-en>Under-eyes rested</div><div data-zh>眼下精神了</div>
+          <div data-en>Shine killed</div><div data-zh>油光压住了</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2><span data-en>How it works</span><span data-zh>怎么用</span></h2>
+    <div class="grid">
+      <div class="card"><span class="num">01</span>
+        <h3><span data-en>Pick the moment.</span><span data-zh>选场合。</span></h3>
+        <p><span data-en>Interview, date, video call, photo, game day — or a rough night. 1, 3 or 5 minutes.</span><span data-zh>面试、约会、视频通话、拍照、比赛日，或者熬夜补救。1、3、5 分钟可选。</span></p></div>
+      <div class="card"><span class="num">02</span>
+        <h3><span data-en>See the fix on your face.</span><span data-zh>先在脸上看效果。</span></h3>
+        <p><span data-en>Live, before you touch anything. Hold the screen to see it, let go to see the real you.</span><span data-zh>实时的，动手之前就能看到。按住屏幕看效果，松手看真实的你。</span></p></div>
+      <div class="card"><span class="num">03</span>
+        <h3><span data-en>Do it for real. We'll check.</span><span data-zh>动手做，我们帮你看。</span></h3>
+        <p><span data-en>It marks where to dot and tells you when the left side's done. Then a quick camera-ready check.</span><span data-zh>它标出点在哪，左边好了会告诉你。最后来一次出门检查。</span></p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span data-en>Every moment</span><span data-zh>每个场合</span></h2>
+    <div class="grid four">
+      <div class="card"><h3><span data-en>Interview</span><span data-zh>面试</span></h3><p><span data-en>Rested and trustworthy. Nothing that reads as effort.</span><span data-zh>精神、可信，看不出刻意收拾。</span></p></div>
+      <div class="card"><h3><span data-en>Date</span><span data-zh>约会</span></h3><p><span data-en>Sharp, but you just look like you on a good day.</span><span data-zh>利落，但看起来就是状态最好的你。</span></p></div>
+      <div class="card"><h3><span data-en>Video call</span><span data-zh>视频通话</span></h3><p><span data-en>Webcams wash you out and make you shiny. Fix both, and fix the light.</span><span data-zh>摄像头会把人拍得发灰、反光。两样都收拾掉，再把光线调好。</span></p></div>
+      <div class="card"><h3><span data-en>Rough night</span><span data-zh>熬夜补救</span></h3><p><span data-en>Pulled an all-nighter? Three minutes and you look like you slept.</span><span data-zh>熬了通宵？三分钟，看起来像睡够了。</span></p></div>
+      <div class="card"><h3><span data-en>Photo</span><span data-zh>拍照</span></h3><p><span data-en>Photos freeze every spot. Handle them first.</span><span data-zh>照片会把每个痘印定格，先处理掉。</span></p></div>
+      <div class="card"><h3><span data-en>Game day</span><span data-zh>比赛日</span></h3><p><span data-en>Sweat-proof. Shine off, a little sun on.</span><span data-zh>不怕出汗：压住油光，加一点晒感。</span></p></div>
+      <div class="card"><h3><span data-en>Everyday</span><span data-zh>日常</span></h3><p><span data-en>Class, work, whatever. Clean and awake in 60 seconds.</span><span data-zh>上课、上班，60 秒干净精神。</span></p></div>
+      <div class="card"><h3><span data-en>Camera-ready check</span><span data-zh>出门检查</span></h3><p><span data-en>Shine, under-eyes, light, camera height. A checklist, not a score.</span><span data-zh>油光、眼下、光线、机位。是清单，不是分数。</span></p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span data-en>The kit</span><span data-zh>需要的东西</span></h2>
+    <ul class="kit">
+      <li><span data-en>Spot fix stick</span><span data-zh>遮瑕棒</span><span class="pill" data-en>ESSENTIAL</span><span class="pill" data-zh>必备</span></li>
+      <li><span data-en>Under-eye pen</span><span data-zh>眼下遮瑕笔</span><span class="pill" data-en>ESSENTIAL</span><span class="pill" data-zh>必备</span></li>
+      <li><span data-en>Blotting sheets</span><span data-zh>吸油纸</span><span class="pill" data-en>ESSENTIAL</span><span class="pill" data-zh>必备</span></li>
+    </ul>
+    <p style="color:#c9ccd1;margin:0">
+      <span data-en>About $25 for all three at Target or Amazon. The app tells you which shade to look for, from your own scan, and to test it on your jaw.</span>
+      <span data-zh>三件加起来在 Target 或 Amazon 约 $25。App 会根据你的扫描告诉你找哪个色号，以及先在下颌上试。</span>
+    </p>
+  </section>
+
+  <section>
+    <h2><span data-en>No scores. Ever.</span><span data-zh>永远不打分。</span></h2>
+    <p class="stance">
+      <span data-en>Other apps rate your face. We think that's messed up. CrispFace only talks about stuff you can fix before you walk out the door — <strong>shine, light, dark circles</strong>. Never your jaw, your nose, or how you stack up against anyone.</span>
+      <span data-zh>别的 App 给你的脸打分，我们觉得这事不对。CrispFace 只说出门前能改的事——<strong>油光、光线、黑眼圈</strong>。从不评价你的下颌、鼻子，也不拿你跟任何人比。</span>
+    </p>
+  </section>
+
+  <section>
+    <h2><span data-en>Your face never leaves your phone.</span><span data-zh>你的脸不会离开你的手机。</span></h2>
+    <div class="grid">
+      <div class="card"><h3><span data-en>On this phone</span><span data-zh>只在本机</span></h3><p><span data-en>Everything runs on the phone. No account, no cloud.</span><span data-zh>全部在手机上运行。没有账号，没有云端。</span></p></div>
+      <div class="card"><h3><span data-en>Nothing uploaded</span><span data-zh>不上传</span></h3><p><span data-en>Your camera feed and scan are never sent anywhere.</span><span data-zh>摄像头画面和扫描结果不发往任何地方。</span></p></div>
+      <div class="card"><h3><span data-en>One-tap delete</span><span data-zh>一键删除</span></h3><p><span data-en>Me → Delete my face data clears your scan and history.</span><span data-zh>我的 → 删除我的面部数据，清掉扫描和记录。</span></p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>FAQ</h2>
+    <details><summary><span data-en>Is this makeup?</span><span data-zh>这算化妆吗？</span></summary>
+      <p><span data-en>It's the same stuff news anchors and actors use every day: a concealer stick and blotting sheets. Used right, nobody can tell. That's the whole point.</span><span data-zh>用的就是主播和演员天天用的东西：遮瑕棒和吸油纸。用对了没人看得出来，这就是重点。</span></p></details>
+    <details><summary><span data-en>Is it a filter?</span><span data-zh>是滤镜吗？</span></summary>
+      <p><span data-en>No. The preview shows you the target; then you do it for real. Shots of the preview are marked "Preview". Shots taken with nothing drawn are marked "Real. No filter."</span><span data-zh>不是。预览只是让你看目标，然后你真的去做。预览截图会标「Preview」，什么都没画的真实照片才标「Real. No filter.」。</span></p></details>
+    <details><summary><span data-en>How do I install the APK?</span><span data-zh>APK 怎么安装？</span></summary>
+      <ol class="steps">
+        <li><span data-en>Tap "Download for Android" on your phone.</span><span data-zh>在手机上点「下载安卓版」。</span></li>
+        <li><span data-en>Open the file. If Android asks, allow installs from your browser.</span><span data-zh>打开下载的文件。如果系统提示，允许浏览器安装应用。</span></li>
+        <li><span data-en>Tap Install. Updates come inside the app after that.</span><span data-zh>点「安装」。之后的更新在 App 里就能完成。</span></li>
+      </ol></details>
+    <details><summary><span data-en>Why 18+?</span><span data-zh>为什么要 18 岁以上？</span></summary>
+      <p><span data-en>Face data rules for under-18s are strict, and we'd rather get it right than rush it.</span><span data-zh>未成年人的人脸数据规定很严，我们宁可做对，不抢时间。</span></p></details>
+    <details><summary><span data-en>iPhone?</span><span data-zh>有 iPhone 版吗？</span></summary>
+      <p><span data-en>Not yet. Android first.</span><span data-zh>还没有，先做安卓版。</span></p></details>
+  </section>
+
+  <footer>
+    <span data-en>18+ · Everything runs on your phone · © CrispFace</span>
+    <span data-zh>仅限 18 岁以上 · 全部在你的手机上运行 · © CrispFace</span>
+    · <a href="https://github.com/microblue/crispface-releases/releases" style="color:inherit"><span data-en>All releases</span><span data-zh>全部版本</span></a>
+  </footer>
+</div>
+<script>
+  (function () {
+    var root = document.documentElement, btn = document.getElementById('lang');
+    function set(l) {
+      root.lang = l;
+      btn.textContent = l === 'zh' ? 'English' : '中文';
+      try { localStorage.setItem('lang', l); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (e) {}
+    set(saved || ((navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'en'));
+    btn.addEventListener('click', function () { set(root.lang === 'zh' ? 'en' : 'zh'); });
+  })();
+</script>
+</body>
+</html>
