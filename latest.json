@@ -1,7 +1,7 @@
 {
- "versionCode": 1,
- "versionName": "1.0",
- "url": "https://github.com/microblue/crispface-releases/releases/download/v1.0/crispface-1.0.apk",
- "sha256": "435872c12240591e7f8d0659db8225068cfcc45bd0acf677abd0c4fcd0b2b4b9",
- "notes": "CrispFace 1.0: first release. Pick a moment, see the fix on your face, do it with live checking, then a camera-ready check."
+ "versionCode": 2,
+ "versionName": "1.1",
+ "url": "https://github.com/microblue/crispface-releases/releases/download/v1.1/crispface-1.1.apk",
+ "sha256": "a3cdd9273fd68ba4fd219aea780a65b06afc470fcb498cc4dd8f99b3c0c52233",
+ "notes": "1.1: Real/Crisp switch on home (no more hunting for hold), stronger default, What changed?. New Try-on: glasses, beards, hair color, piercings, face ink; pin for a week. 首页新增真实/收拾后开关、效果加强、改了哪儿；新增试戴：眼镜、胡子、发色、穿孔、纹身。"
 }
