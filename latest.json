@@ -1,7 +1,7 @@
 {
- "versionCode": 2,
- "versionName": "1.1",
- "url": "https://github.com/microblue/crispface-releases/releases/download/v1.1/crispface-1.1.apk",
- "sha256": "a3cdd9273fd68ba4fd219aea780a65b06afc470fcb498cc4dd8f99b3c0c52233",
- "notes": "1.1: Real/Crisp switch on home (no more hunting for hold), stronger default, What changed?. New Try-on: glasses, beards, hair color, piercings, face ink; pin for a week. 首页新增真实/收拾后开关、效果加强、改了哪儿；新增试戴：眼镜、胡子、发色、穿孔、纹身。"
+ "versionCode": 3,
+ "versionName": "1.1.1",
+ "url": "https://github.com/microblue/crispface-releases/releases/download/v1.1.1/crispface-1.1.1.apk",
+ "sha256": "1b5695519415841a6f0cf1d38b5ab5e03ab6c35ef9acae7777e33bc78ebb62f0",
+ "notes": "Fixes a crash when trying a hair color. 修复选发色时闪退。"
 }
